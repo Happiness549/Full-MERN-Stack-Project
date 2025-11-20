@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const itemRoutes = require('./routes/itemRoutes');
 
 const app = express();
+const authRoutes = require("./routes/authRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +16,10 @@ connectDB();
 
 // Routes
 app.use("/api/items", itemRoutes);
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/auth", authRoutes);
+
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running 🎉" });

@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const ItemSchema = new mongoose.Schema(
@@ -23,10 +24,19 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      default: "open",
+    },
     date: {
       type: Date,
       default: Date.now,
-    }
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // link to the user who posted
+      required: true,
+    },
   },
   { timestamps: true }
 );
