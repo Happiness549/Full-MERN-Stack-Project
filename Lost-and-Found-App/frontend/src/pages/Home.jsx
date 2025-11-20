@@ -10,45 +10,50 @@ const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("token")
   );
-  const [typeFilter, setTypeFilter] = useState(""); // "" = all
-  const [statusFilter, setStatusFilter] = useState(""); // "" = all
+  const [typeFilter, setTypeFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [search, setSearch] = useState(""); // NEW → search bar
+  const [loading, setLoading] = useState(false); // NEW → loading spinner
 
-  // Fetch all items from backend
+  // Fetch items
   const fetchItems = async () => {
     try {
+      setLoading(true); // start loading
       const res = await api.get("/items");
       setItems(res.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false); // stop loading
     }
   };
 
   useEffect(() => {
     fetchItems();
 
-    // Listen for login/logout across tabs
     const handleStorageChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
     };
 
     window.addEventListener("storage", handleStorageChange);
-
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  // Filter items based on selected type and status
+  // Filter items
   const filteredItems = items.filter((item) => {
-    return (
-      (typeFilter === "" || item.type === typeFilter) &&
-      (statusFilter === "" || item.status === statusFilter)
-    );
+    const matchesType = typeFilter === "" || item.type === typeFilter;
+    const matchesStatus = statusFilter === "" || item.status === statusFilter;
+    const matchesSearch =
+      item.name.toLowerCase().includes(search.toLowerCase()); // search match
+
+    return matchesType && matchesStatus && matchesSearch;
   });
 
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Lost & Found</h1>
 
-      {/* Show form only if logged in */}
+      {/* Add Items (only if logged in) */}
       {isLoggedIn ? (
         <ItemForm fetchItems={fetchItems} />
       ) : (
@@ -62,6 +67,15 @@ const Home = () => {
           </p>
         </div>
       )}
+
+      {/* Search bar */}
+      <input
+        type="text"
+        placeholder="Search by item name..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full border p-2 rounded mb-4"
+      />
 
       {/* Filters */}
       <div className="flex gap-4 mb-4">
@@ -86,8 +100,17 @@ const Home = () => {
         </select>
       </div>
 
-      {/* Show filtered items */}
-      <ItemList items={filteredItems} fetchItems={fetchItems} />
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="flex justify-center my-6">
+          <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+        </div>
+      )}
+
+      {/* Items List */}
+      {!loading && (
+        <ItemList items={filteredItems} fetchItems={fetchItems} />
+      )}
     </div>
   );
 };
