@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../api";
+import axios from "axios"; 
 
 const ItemForm = ({ fetchItems }) => {
   const [title, setTitle] = useState("");
@@ -11,13 +11,20 @@ const ItemForm = ({ fetchItems }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/items", { title, description, type, location, contact });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/items`,
+        { title, description, type, location, contact },
+        { withCredentials: true }
+      );
+
+      // Reset fields
       setTitle("");
       setDescription("");
       setLocation("");
       setContact("");
       setType("lost");
-      fetchItems(); 
+
+      fetchItems();
     } catch (err) {
       console.error(err.response?.data?.error || err.message);
       alert("Failed to add item. Make sure you are logged in.");
