@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import ItemForm from "../components/ItemForm";
@@ -12,19 +11,18 @@ const Home = () => {
   );
   const [typeFilter, setTypeFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const [search, setSearch] = useState(""); 
-  const [loading, setLoading] = useState(false); 
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  
   const fetchItems = async () => {
     try {
-      setLoading(true); 
+      setLoading(true);
       const res = await api.get("/items");
       setItems(res.data);
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -39,12 +37,11 @@ const Home = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  
   const filteredItems = items.filter((item) => {
     const matchesType = typeFilter === "" || item.type === typeFilter;
     const matchesStatus = statusFilter === "" || item.status === statusFilter;
     const matchesSearch =
-      item.name.toLowerCase().includes(search.toLowerCase()); 
+      (item.title || "").toLowerCase().includes(search.toLowerCase());
 
     return matchesType && matchesStatus && matchesSearch;
   });
@@ -53,7 +50,6 @@ const Home = () => {
     <div className="max-w-3xl mx-auto p-4 bg-gray-500">
       <h1 className="text-3xl font-bold mb-4">Lost & Found</h1>
 
-    
       {isLoggedIn ? (
         <ItemForm fetchItems={fetchItems} />
       ) : (
@@ -71,13 +67,13 @@ const Home = () => {
       
       <input
         type="text"
-        placeholder="Search by item name..."
+        placeholder="Search by item title..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="w-full border p-2 rounded mb-4"
       />
 
-      
+    
       <div className="flex gap-4 mb-4">
         <select
           value={typeFilter}
@@ -107,10 +103,8 @@ const Home = () => {
         </div>
       )}
 
-    
-      {!loading && (
-        <ItemList items={filteredItems} fetchItems={fetchItems} />
-      )}
+      
+      {!loading && <ItemList items={filteredItems} fetchItems={fetchItems} />}
     </div>
   );
 };
