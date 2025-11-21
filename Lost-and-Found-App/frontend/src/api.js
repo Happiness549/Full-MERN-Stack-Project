@@ -1,20 +1,7 @@
-const express = require("express");
-const cors = require("cors");
+import axios from "axios";
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-const PORT = process.env.PORT || 5000;
-
-app.get("/", (req, res) => {
-  res.json({ message: "Backend running 🎉" });
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
 });
 
-const itemsRoute = require("./routes/items");
-app.use("/api/items", itemsRoute);
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+export default api;
