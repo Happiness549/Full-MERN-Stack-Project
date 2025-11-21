@@ -13,7 +13,7 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-// GET ALL
+
 router.get("/", async (req, res) => {
   try {
     const items = await Item.find()
