@@ -1,16 +1,22 @@
 
-import axios from "axios";
+const express = require("express");
+const cors = require("cors");
 
-const api = axios.create({
-  baseURL: "https://full-mern-stack-project-1-backend.onrender.com/api", 
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+const PORT = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  res.json({ message: "Backend running 🎉" });
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token"); 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// Your routes
+const itemsRoute = require("./routes/items");
+app.use("/api/items", itemsRoute);
 
-export default api;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
