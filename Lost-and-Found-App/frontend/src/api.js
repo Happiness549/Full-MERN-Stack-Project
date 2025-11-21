@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 
@@ -13,11 +12,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend running 🎉" });
 });
 
-// Your routes
 const itemsRoute = require("./routes/items");
 app.use("/api/items", itemsRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
