@@ -2,9 +2,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://full-mern-stack-project-1.onrender.com/api",
+  baseURL: "https://full-mern-stack-project-1-backend.onrender.com/api", // backend URL here
 });
-
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token"); 
