@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const res = await api.post("/auth/login", { email, password });
 
-      // SAVE TOKEN + USER TO LOCAL STORAGE
+      
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 

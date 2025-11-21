@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// LOGIN
+
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -44,7 +44,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// GET CURRENT USER (Protected)
 router.get("/me", protect, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
   res.json(user);

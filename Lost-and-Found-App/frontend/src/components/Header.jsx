@@ -5,14 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
 
-  // Check token directly on each render
+  
   const token = localStorage.getItem("token");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // also remove user info
+    localStorage.removeItem("user"); 
     navigate("/login");
-    window.location.reload(); // force re-render to update Header
+    window.location.reload(); 
   };
 
   return (

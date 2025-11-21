@@ -34,7 +34,7 @@ const ItemSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // link to the user who posted
+      ref: "User", 
       required: true,
     },
   },

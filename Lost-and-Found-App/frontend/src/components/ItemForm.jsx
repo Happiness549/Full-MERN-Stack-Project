@@ -17,7 +17,7 @@ const ItemForm = ({ fetchItems }) => {
       setLocation("");
       setContact("");
       setType("lost");
-      fetchItems(); // refresh list
+      fetchItems(); 
     } catch (err) {
       console.error(err.response?.data?.error || err.message);
       alert("Failed to add item. Make sure you are logged in.");

@@ -4,13 +4,13 @@ import api from "../api";
 const ItemList = ({ items, fetchItems }) => {
   const token = localStorage.getItem("token");
 
-  // Mark item as returned
+  
   const handleReturn = async (id) => {
     try {
       await api.put(`/items/${id}/return`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      fetchItems(); // refresh list
+      fetchItems(); 
     } catch (err) {
       console.error(err.response?.data?.error || err.message);
     }
@@ -29,7 +29,7 @@ const ItemList = ({ items, fetchItems }) => {
           <p><strong>Contact:</strong> {item.contact}</p>
           <p><strong>Posted by:</strong> {item.user?.name || "Unknown"}</p>
 
-          {/* Show Mark as Returned button only if logged in and status is open */}
+          
           {token && item.status === "open" && (
             <button
               onClick={() => handleReturn(item._id)}

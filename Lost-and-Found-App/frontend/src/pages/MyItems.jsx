@@ -7,7 +7,7 @@ const MyItems = () => {
 
   const fetchMyItems = async () => {
     try {
-      const res = await api.get("/items/my"); // uses protected route
+      const res = await api.get("/items/my"); 
       setItems(res.data);
     } catch (err) {
       console.error(err.response?.data?.error || err.message);

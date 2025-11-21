@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyItems from "./pages/MyItems";
 import Header from "./components/Header";
-import PrivateRoute from "./components/PrivateRoute"; // new import
+import PrivateRoutes from "./components/PrivateRoutes"; // new import
 import './App.css'
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
         <Route 
           path="/my-items" 
           element={
-            <PrivateRoute>
+            <PrivateRoutes>
               <MyItems />
-            </PrivateRoute>
+            </PrivateRoutes>
           } 
         />
       </Routes>
