@@ -44,13 +44,13 @@ const Home = () => {
     const matchesType = typeFilter === "" || item.type === typeFilter;
     const matchesStatus = statusFilter === "" || item.status === statusFilter;
     const matchesSearch =
-      item.name.toLowerCase().includes(search.toLowerCase()); // search match
+      item.name.toLowerCase().includes(search.toLowerCase()); 
 
     return matchesType && matchesStatus && matchesSearch;
   });
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto p-4 bg-gray-500">
       <h1 className="text-3xl font-bold mb-4">Lost & Found</h1>
 
     
@@ -77,7 +77,7 @@ const Home = () => {
         className="w-full border p-2 rounded mb-4"
       />
 
-      {/* Filters */}
+      
       <div className="flex gap-4 mb-4">
         <select
           value={typeFilter}

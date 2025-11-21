@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://full-mern-stack-project-1-backend.onrender.com/api", // backend URL here
+  baseURL: "https://full-mern-stack-project-1-backend.onrender.com/api", 
 });
 
 api.interceptors.request.use((config) => {
