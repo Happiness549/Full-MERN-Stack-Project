@@ -4,8 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyItems from "./pages/MyItems";
-import About from "./pages/About";       // new page
-import Contact from "./pages/Contact";   // new page
+import About from "./pages/About";       
+import Contact from "./pages/Contact";   
 import Header from "./components/Header";
 import PrivateRoutes from "./components/PrivateRoutes"; 
 import './App.css';

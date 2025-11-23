@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import api from "../api";
 import ItemList from "../components/ItemList";
@@ -7,7 +8,12 @@ const MyItems = () => {
 
   const fetchMyItems = async () => {
     try {
-      const res = await api.get("/items/my"); 
+      const token = localStorage.getItem("token"); // get token
+      const res = await api.get("/items/my", {
+        headers: {
+          Authorization: `Bearer ${token}`, // send token
+        },
+      });
       setItems(res.data);
     } catch (err) {
       console.error(err.response?.data?.error || err.message);
