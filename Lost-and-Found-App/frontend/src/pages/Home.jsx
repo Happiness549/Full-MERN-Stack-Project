@@ -1,68 +1,10 @@
-import React, { useState, useEffect } from "react";
-import api from "../api";
-import ItemForm from "../components/ItemForm";
-import ItemList from "../components/ItemList";
-import { Link } from "react-router-dom";
+<div className="max-w-3xl mx-auto">
 
-const Home = () => {
-  const [items, setItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    !!localStorage.getItem("token")
-  );
-  const [typeFilter, setTypeFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
+  <h1 className="text-3xl font-bold mb-6 text-center">Lost & Found</h1>
 
-  const fetchItems = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get("/items");
-      setItems(res.data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchItems();
-
-    const handleStorageChange = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
-
-  const filteredItems = items.filter((item) => {
-    const matchesType = typeFilter === "" || item.type === typeFilter;
-    const matchesStatus = statusFilter === "" || item.status === statusFilter;
-    const matchesSearch =
-      (item.title || "").toLowerCase().includes(search.toLowerCase());
-
-    return matchesType && matchesStatus && matchesSearch;
-  });
-
-  return (
-    <div className="max-w-3xl mx-auto p-4 bg-gray-500">
-      <h1 className="text-3xl font-bold mb-4">Lost & Found</h1>
-
-      {isLoggedIn ? (
-        <ItemForm fetchItems={fetchItems} />
-      ) : (
-        <div className="mb-4 p-4 bg-yellow-100 rounded">
-          <p>
-            Please{" "}
-            <Link to="/login" className="text-blue-500 underline">
-              login
-            </Link>{" "}
-            to add items.
-          </p>
-        </div>
-      )}
+  {isLoggedIn ? (
+    <>
+      <ItemForm fetchItems={fetchItems} />
 
       
       <input
@@ -70,15 +12,15 @@ const Home = () => {
         placeholder="Search by item title..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full border p-2 rounded mb-4"
+        className="w-full border p-2 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
 
-    
-      <div className="flex gap-4 mb-4">
+      
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded flex-1"
         >
           <option value="">All Types</option>
           <option value="lost">Lost</option>
@@ -88,7 +30,7 @@ const Home = () => {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded flex-1"
         >
           <option value="">All Statuses</option>
           <option value="open">Open</option>
@@ -96,17 +38,34 @@ const Home = () => {
         </select>
       </div>
 
-      
-      {loading && (
-        <div className="flex justify-center my-6">
-          <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-        </div>
-      )}
-
-      
+      {/* Item List */}
       {!loading && <ItemList items={filteredItems} fetchItems={fetchItems} />}
+    </>
+  ) : (
+    <div className="mb-6 p-4 bg-yellow-100 rounded shadow text-center">
+      <p>
+        Please{" "}
+        <Link to="/login" className="text-blue-500 underline font-semibold">
+          login
+        </Link>{" "}
+        to add items and see all listings.
+      </p>
     </div>
-  );
-};
+  )}
 
-export default Home;
+  
+  <section className="mt-10 p-4 bg-white rounded shadow">
+    <h2 className="text-2xl font-bold mb-2">About Us</h2>
+    <p>Welcome to the Lost & Found app! We help you recover lost items and manage found belongings safely.</p>
+  </section>
+
+  <section className="mt-6 p-4 bg-white rounded shadow">
+    <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
+    <p>For support or questions, contact us:</p>
+    <ul className="mt-2 list-disc list-inside">
+      <li>Email: support@lostfoundapp.com</li>
+      <li>Phone: +27 123 456 789</li>
+    </ul>
+  </section>
+
+</div>
